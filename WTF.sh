@@ -1,6 +1,6 @@
 #!/bin/bash
-echo set -o xtrace
-set -o xtrace
+##echo set -o xtrace
+##set -o xtrace
 
 echo   History
 #History
@@ -349,7 +349,43 @@ echo cat /var/spool/cron/crontabs/* | cat /var/spool/cron/*
 cat /var/spool/cron/crontabs/* | cat /var/spool/cron/*
 echo lsof -nPi
 lsof -nPi
-echo set +o xtrace
-set +o xtrace
+
+echo Small One Liner
+#Small One Liner
+echo echo ""; echo "Server Status One-liner"; echo ""; echo "Storage: "; df -h | sed -n '2,2p' | awk '{print "Disk:",$3"/"$2,$5}'; df -i | sed -n '2,2p' | awk '{print "Inodes:",$3"/"$2,$5}'; echo ""; echo "Load Average: "; cat /proc/loadavg; echo -ne "Thread Count: "; cat /proc/cpuinfo | grep processor | wc -l; echo ""; echo "Usage: "; mpstat | tail -2; echo ""; echo "Memory: "; free -m; echo ""; echo "Vmstat: "; vmstat; echo ""; echo "Services: ";ps cax | grep mysqld > /dev/null; if [ $? -eq 0 ]; then echo "mysql is running"; else echo "mysql is not running"; fi; ps cax | grep httpd > /dev/null; if [ $? -eq 0 ]; then echo "httpd is running"; else echo "httpd is not running"; fi; ps cax | grep exim > /dev/null; if [ $? -eq 0 ]; then echo "exim is running"; else echo "exim is not running"; fi; ps cax | grep named > /dev/null; if [ $? -eq 0 ]; then echo "named is running"; else echo "named is not running(Are they root?)"; fi; ps cax | grep pure-ftpd > /dev/null; if [ $? -eq 0 ]; then echo "ftpd is running"; else echo "ftpd is not running"; fi; ps cax | grep courier > /dev/null; if [ $? -eq 0 ]; then echo "courier is running"; else echo "courier is not running"; fi; netstat -tunap | grep -v 0.0.0.0 | awk '/.*[0-9]+.[0-9]+.[0-9]+.[0-9].*/{gsub(/::ffff:/,"",$0);print $4"\t" $5 "\t" $6"\t" $7}' | awk -F"/" '{print $1"\t"$2}' > netstat.log; echo ""; echo "Connections:";echo "Number of connections to each port:";cat netstat.log | awk {'print $1'} | cut -d: -f 2 | sort | uniq -c | sort -nk 1;echo;echo "Number of connections from each IP:";cat netstat.log | awk {'print $2'} | cut -d: -f 1 | sort | uniq -c | sort -nk 1;echo;echo "Number of instances of a particular IP connecting to particular port with connection states:";cat netstat.log | awk -F":" {'print $2 "\t" $3'} | awk {'print $1 "\t" $2 "\t" $4 "\t" $6'} | sort | uniq -c | sort -nk 1;echo;echo "SYN_RECV connections:";cat netstat.log | awk -F":" {'print $2 "\t" $3'} | awk {'print $1 "\t" $2 "\t" $4 "\t" $6'} | sort | uniq -c | sort -nk 1 | grep SYN_RECV; echo "Most CPU Intensive:"; ps auxf | sort -nr -k 3 | head -2;echo; echo "Most Memory Intensive:"; ps auxf | sort -nr -k 4 | head -2;
+
+echo ""; echo "Server Status One-liner"; echo ""; echo "Storage: "; df -h | sed -n '2,2p' | awk '{print "Disk:",$3"/"$2,$5}'; df -i | sed -n '2,2p' | awk '{print "Inodes:",$3"/"$2,$5}'; echo ""; echo "Load Average: "; cat /proc/loadavg; echo -ne "Thread Count: "; cat /proc/cpuinfo | grep processor | wc -l; echo ""; echo "Usage: "; mpstat | tail -2; echo ""; echo "Memory: "; free -m; echo ""; echo "Vmstat: "; vmstat; echo ""; echo "Services: ";ps cax | grep mysqld > /dev/null; if [ $? -eq 0 ]; then echo "mysql is running"; else echo "mysql is not running"; fi; ps cax | grep httpd > /dev/null; if [ $? -eq 0 ]; then echo "httpd is running"; else echo "httpd is not running"; fi; ps cax | grep exim > /dev/null; if [ $? -eq 0 ]; then echo "exim is running"; else echo "exim is not running"; fi; ps cax | grep named > /dev/null; if [ $? -eq 0 ]; then echo "named is running"; else echo "named is not running(Are they root?)"; fi; ps cax | grep pure-ftpd > /dev/null; if [ $? -eq 0 ]; then echo "ftpd is running"; else echo "ftpd is not running"; fi; ps cax | grep courier > /dev/null; if [ $? -eq 0 ]; then echo "courier is running"; else echo "courier is not running"; fi; netstat -tunap | grep -v 0.0.0.0 | awk '/.*[0-9]+.[0-9]+.[0-9]+.[0-9].*/{gsub(/::ffff:/,"",$0);print $4"\t" $5 "\t" $6"\t" $7}' | awk -F"/" '{print $1"\t"$2}' > netstat.log; echo ""; echo "Connections:";echo "Number of connections to each port:";cat netstat.log | awk {'print $1'} | cut -d: -f 2 | sort | uniq -c | sort -nk 1;echo;echo "Number of connections from each IP:";cat netstat.log | awk {'print $2'} | cut -d: -f 1 | sort | uniq -c | sort -nk 1;echo;echo "Number of instances of a particular IP connecting to particular port with connection states:";cat netstat.log | awk -F":" {'print $2 "\t" $3'} | awk {'print $1 "\t" $2 "\t" $4 "\t" $6'} | sort | uniq -c | sort -nk 1;echo;echo "SYN_RECV connections:";cat netstat.log | awk -F":" {'print $2 "\t" $3'} | awk {'print $1 "\t" $2 "\t" $4 "\t" $6'} | sort | uniq -c | sort -nk 1 | grep SYN_RECV; echo "Most CPU Intensive:"; ps auxf | sort -nr -k 3 | head -2;echo; echo "Most Memory Intensive:"; ps auxf | sort -nr -k 4 | head -2;
+
+#MISC from Reddit https://www.reddit.com/r/sysadmin/comments/3pdnl2/lets_play_linux_server_detective/
+echo ps auxf | sort -nr -k 3 | head -5
+ps auxf | sort -nr -k 3 | head -5
+echo ps auxf | sort -nr -k 4 | head -5
+ps auxf | sort -nr -k 4 | head -5
+
+echo CPU Intensive processes:
+CPU Intensive processes:
+echo ps auxf | sort -nr -k 3 | head -5
+ps auxf | sort -nr -k 3 | head -5
+
+echo Memory Intensive processes:
+Memory Intensive processes:
+echo ps auxf | sort -nr -k 4 | head -5
+ps auxf | sort -nr -k 4 | head -5
+
+echo Connection by IPs:
+Connection by IPs:
+echo netstat -tunap | grep -v 0.0.0.0 | awk '/.*[0-9]+.[0-9]+.[0-9]+.[0-9].*/{gsub(/::ffff:/,"",$0);print $4"\t" $5 "\t" $6"\t" $7}' | awk -F"/" '{print $1"\t"$2}' > netstat.log; echo ""; echo "Connections:";echo "Number of connections to each port:";cat netstat.log | awk {'print $1'} | cut -d: -f 2 | sort | uniq -c | sort -nk 1;echo;echo "Number of connections from each IP:";cat netstat.log | awk {'print $2'} | cut -d: -f 1 | sort | uniq -c | sort -nk 1;echo;echo "Number of instances of a particular IP connecting to particular port with connection states:";cat netstat.log | awk -F":" {'print $2 "\t" $3'} | awk {'print $1 "\t" $2 "\t" $4 "\t" $6'} | sort | uniq -c | sort -nk 1;echo;echo "SYN_RECV connections:";cat netstat.log | awk -F":" {'print $2 "\t" $3'} | awk {'print $1 "\t" $2 "\t" $4 "\t" $6'} | sort | uniq -c | sort -nk 1 | grep SYN_RECV;
+netstat -tunap | grep -v 0.0.0.0 | awk '/.*[0-9]+.[0-9]+.[0-9]+.[0-9].*/{gsub(/::ffff:/,"",$0);print $4"\t" $5 "\t" $6"\t" $7}' | awk -F"/" '{print $1"\t"$2}' > netstat.log; echo ""; echo "Connections:";echo "Number of connections to each port:";cat netstat.log | awk {'print $1'} | cut -d: -f 2 | sort | uniq -c | sort -nk 1;echo;echo "Number of connections from each IP:";cat netstat.log | awk {'print $2'} | cut -d: -f 1 | sort | uniq -c | sort -nk 1;echo;echo "Number of instances of a particular IP connecting to particular port with connection states:";cat netstat.log | awk -F":" {'print $2 "\t" $3'} | awk {'print $1 "\t" $2 "\t" $4 "\t" $6'} | sort | uniq -c | sort -nk 1;echo;echo "SYN_RECV connections:";cat netstat.log | awk -F":" {'print $2 "\t" $3'} | awk {'print $1 "\t" $2 "\t" $4 "\t" $6'} | sort | uniq -c | sort -nk 1 | grep SYN_RECV;
+
+echo Connection States:
+Connection States:
+echo netstat -an | grep ":80" | awk '/tcp/ {print $6}' | sort -nr | uniq -c
+netstat -an | grep ":80" | awk '/tcp/ {print $6}' | sort -nr | uniq -c
+
+echo #MD5 Check
 md5sum * > checklist$(date +%Y-%m-%d_%H).chk  # generates a list of checksums for any file that matches *
 md5sum -c checklist.chk
+
+#echo set +o xtrace
+#set +o xtrace
+
